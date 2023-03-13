@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.6.3.min.js"></script>
+    <script type="text/javascript" src="           !! please your own google api key for location !!            "></script>
+    <script src="map.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <p>AirR@te</p>  
+        </div> 
+        <div class="about">
+            <a href="about.html" target="_blank">About Me</a>
+        </div> 
+    </header>
+    <section>
+        <div class="input">
+            <input type="text" id="location" placeholder="Enter your address here">
+            <input type="hidden" id="lat" value="">
+            <input type="hidden" id="lng" value="">
+        </div>
+         <br>
+         <br>
+         <br>
+        <div class="container">
+            <div class="p1">
+               <!--<p id="aqi">AQI - <span id="qi"></span></p>-->
+               <br>
+               <p id="quality">Air Quality - <span id="qua"></span></p>
+            </div> 
+            <br>
+            <center>
+                <table>
+                    <tr>
+                        <td>Co - </td>
+                        <td id="Co"></td>
+                    </tr>
+                    <tr>
+                        <td>NO - </td>
+                        <td id="no"></td>
+                    </tr>
+                    <tr>
+                        <td>NO <sub>2</sub> - </td>
+                        <td id="NO2"></td>
+                    </tr>
+                    <tr>
+                        <td>O <sub>3</sub> - </td>
+                        <td id="O3"></td>
+                    </tr>
+                    <tr>
+                        <td>PM <sub>2.5</sub> - </td>
+                        <td id="pm2"></td>
+                    </tr>
+                    <tr>
+                        <td>PM <sub>10</sub> - </td>
+                        <td id="pm10"></td>
+                    </tr>
+                    <tr>
+                        <td>NH <sub>3</sub> - </td>
+                        <td id="nh3"></td>
+                    </tr>
+                </table>
+            </center>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        $('.container').hide();
+        function initAutocomplete(){
+            var autocomplete;
+            var id ='location'
+            autocomplete=new google.maps.places.Autocomplete((document.getElementById(id)),{ 
+                types:['geocode'],
+            })
+            autocomplete.addListener('place_changed',function(){
+               var place= autocomplete.getPlace();
+               console.log(place);
+               var latitude = place.geometry.location.lat();
+               var longitude = place.geometry.location.lng();
+               document.getElementById('lat').value = latitude;
+               document.getElementById('lng').value = longitude;
+               console.log(latitude , longitude);
+               let url = //please give your own openweather app api key and replace latitude value to ${latitude} and longitude value to ${longitude}
+               console.log(url);
+               $.ajax({
+                    url: url,
+                    type:"GET",
+                    dataType:"JSON",
+                    data:JSON.stringify({ }),
+                    success:function(data){
+                        let ai= data.list[0].main.aqi;
+                        console.log(ai);
+                        $('#qi').html("<span>"+ (ai) +"</span>");
+                        if(ai === 1){
+                            $('#qua').html("<span>"+'Good'+"</span>");
+                            $("body").css("background","#008000");
+                        }
+                        else if(ai=== 2){
+                            $('#qua').html("<span>"+'Fair'+"</span>");
+                            $("body").css("background","#FFFF00");
+                        
+                        }
+                        else if(ai === 3){
+                            $('#qua').html("<span>"+'Modreate'+"</span>");
+                            $("body").css("background","#FFA500");
+                        }
+                        else if(ai === 4){
+                            $('#qua').html("<span>"+'Poor'+"</span>");
+                            $("body").css("background","#FF0000");
+                        }
+                        else if(ai === 5){
+                            $('#qua').html("<span>"+'Very Poor'+"</span>");
+                            $("body").css("background","#A020F0");
+                        }
+                        else {
+                            console.log('INVALID!')
+
+                        }    
+                        $('.container').show(); 
+                        let com =data.list[0].components.co;
+                        console.log(com);
+                        $('#Co').html( "<span>"+(com)+"</span>");
+
+                        let nuc =data.list[0].components.no;
+                        console.log(nuc);
+                        $('#no').html("<span>"+(nuc)+"</span>");
+
+                        let nitro =data.list[0].components.no2;
+                        console.log(nitro);
+                        $('#NO2').html("<span>"+(nitro)+"</span>");
+
+                        let oxygen =data.list[0].components.o3;
+                        console.log(oxygen);
+                        $('#O3').html( "<span>"+(oxygen)+"</span>");
+
+                        let per =data.list[0].components.pm2_5;
+                        console.log(per);
+                        $('#pm2').html("<span>"+(per)+"</span>");
+
+                        let met =data.list[0].components.pm10;
+                        console.log(met);
+                        $('#pm10').html("<span>"+(met)+"</span>");
+
+                        let hydro =data.list[0].components.nh3;
+                        console.log(hydro);
+                        $('#nh3').html("<span>"+(hydro)+"</span>");
+                    }
+                });
+            }); 
+        }       
+    </script>
+</body>
+</html>

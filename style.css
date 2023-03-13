@@ -1,0 +1,60 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+body{
+    background: whitesmoke;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    height: 100vh;
+}
+div.logo{
+    width: 100px;
+    height: 70px;
+    float: left;
+    font-size: 35px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 20px;
+    padding-top: 10px;
+    font-weight: 700;
+    color: black;
+}
+.about{
+    float: right;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    margin-left: 1320px;
+    padding-right: 20px;
+    padding-top: 10px;
+    
+}
+.about a{
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
+    font-size: medium;
+}
+section{
+    position:  absolute;
+    top : 150px;
+    left: 600px;
+    justify-content: space-between;
+    
+}
+input{
+    width: 400px;
+    height:50px;
+    outline: none;
+}
+input[type="text"]{
+    text-align: center;
+    font-size: larger;
+}
+
+.p1{
+    text-align: center;
+    font-weight: 900;
+    font-size: 25px;
+}
